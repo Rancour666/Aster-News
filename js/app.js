@@ -4104,18 +4104,24 @@
     const weatherModule = document.querySelector(".weather-module");
     if (weatherModule) {
         async function loadWeather(e) {
-            const server = "https://api.openweathermap.org/data/2.5/weather?lat=48.6042955&lon=22.2753241&appid={a537f357effeb97fed2ee16e78e90a2a}";
+            weatherModule.innerHTML = `\n\t\t<div class="weather-module__loading">\n\t\t\t<img src="img/loading.gif" alt="Loading...">\n\t\t</div>\n\t\t`;
+            const server = "https://api.openweathermap.org/data/2.5/weather?lat=48.4392&lon=22.7178&appid=a537f357effeb97fed2ee16e78e90a2a&units=metric";
             const response = await fetch(server, {
                 method: "GET"
             });
             if (response.ok) {
                 const responseResult = await response.json();
-                console.log();
-                newsWeather(responseResult);
-            } else console.log("Error API");
+                getWeather(responseResult);
+            } else weatherModule.innerHTML = responseResult.message;
         }
-        function newsWeather(data) {
+        function getWeather(data) {
             console.log(data);
+            const location = data.name;
+            const temp = Math.round(data.main.temp);
+            const weatherStatus = data.weather[0].main;
+            const weatherIcon = data.weather[0].icon;
+            const templateWeather = `\n\t\t\t<h3 class="weather-module__title _icon-crosshair">${location}</h3>\n\t\t\t<div class="weather-module__body body-weather-module">\n\t\t\t\t<div class="body-weather-module__info">\n\t\t\t\t\t<div class="body-weather-module__status">${weatherStatus}</div>\n\t\t\t\t\t<div class="body-weather-module__value">${temp}<sup>o</sup>c</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="body-weather-module__icon">\n\t\t\t\t\t\x3c!---<img src="img/%weatherIcon%" alt="icon-weather">---\x3e\n\t\t\t\t\t<img src="http://openweathermap.org/img/w/${weatherIcon}.png" alt="${weatherIcon}">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="weather-module__footer">\n\t\t\t\t<button type="button" class="weather-module__type weather-module__type_active">Celsius</button>\n\t\t\t\t<button type="button" class="weather-module__type">Fahrenheit</button>\n\t\t\t</div>\n\t\t`;
+            weatherModule.innerHTML = templateWeather;
         }
         loadWeather();
     }
