@@ -518,15 +518,31 @@ body {
   grid-template-columns: minmax(14.125rem, 16.472303207%) 1fr 20.7725947522%;
 }
 
-@supports (gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem )) {
+@supports ((-moz-column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem )) or (column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem ))) {
   .page__container {
-    gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem );
+    -webkit-column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem );
+       -moz-column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem );
+            column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem );
   }
 }
 
-@supports not (gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem )) {
+@supports not ((-moz-column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem )) or (column-gap: clamp( 0.625rem , 0.0000000625rem  +  3.125vw , 2.8125rem ))) {
   .page__container {
-    gap: calc(0.625rem + 2.1875 * (100vw - 20rem) / 70);
+    -webkit-column-gap: calc(0.625rem + 2.1875 * (100vw - 20rem) / 70);
+       -moz-column-gap: calc(0.625rem + 2.1875 * (100vw - 20rem) / 70);
+            column-gap: calc(0.625rem + 2.1875 * (100vw - 20rem) / 70);
+  }
+}
+
+@supports (row-gap: clamp( 2.8125rem , 2.8125rem  +  0vw , 2.8125rem )) {
+  .page__container {
+    row-gap: clamp( 2.8125rem , 2.8125rem  +  0vw , 2.8125rem );
+  }
+}
+
+@supports not (row-gap: clamp( 2.8125rem , 2.8125rem  +  0vw , 2.8125rem )) {
+  .page__container {
+    row-gap: calc(2.8125rem + 0 * (100vw - 20rem) / 70);
   }
 }
 
